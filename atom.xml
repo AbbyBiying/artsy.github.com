@@ -4,7 +4,7 @@
   <title><![CDATA[Artsy Engineering]]></title>
   <link href="http://artsy.github.io/atom.xml" rel="self"/>
   <link href="http://artsy.github.io/"/>
-  <updated>2014-06-11T10:20:33-04:00</updated>
+  <updated>2014-06-17T14:29:08-04:00</updated>
   <id>http://artsy.github.io/</id>
   <author>
     <name><![CDATA[Artsy]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building the Xcode Plugin Snapshots]]></title>
+    <link href="http://artsy.github.io/blog/2014/06/17/building-the-xcode-plugin-snapshots/"/>
+    <updated>2014-06-17T10:50:00-04:00</updated>
+    <id>http://artsy.github.io/blog/2014/06/17/building-the-xcode-plugin-snapshots</id>
+    <content type="html"><![CDATA[<p>I&#8217;m the kind of guy who thinks better tooling means better outcomes. But when good tooling isn&#8217;t available, it&#8217;s time to build it yourself. It&#8217;s this attitude that lead to my work on <a href="http://cocoadocs.org">CocoaDocs.org</a>, and then to <a href="http://cocoapods.org">CocoaPods.org</a> &amp; its documentation.</p>
+
+<p>We&#8217;ve been trying to apply this to testing, and in order to pull this off I&#8217;ve had to extend Xcode to show off the results of failing tests in a more visual way. To that end, I&#8217;ve extended Xcode to show the results of failing <a href="https://github.com/facebook/ios-snapshot-test-case">view tests</a> in a more visual way by building <a href="https://github.com/orta/snapshots">Snapshots for Xcode</a>.  Let&#8217;s go through the process of building an Xcode plugin so you can do this too. Screw stability.</p>
+
+<!-- more -->
+
+
+<h2>Getting started</h2>
+
+<p>Lets start of with some Xcode inception. The nicest way to start working on Xcode plugins is to install <a href="http://alcatraz.io">Alcatraz</a> the Xcode plugin package manager:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -fsSL https://raw.github.com/supermarin/Alcatraz/master/Scripts/install.sh | sh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>From Alcatraz you should have <a href="https://github.com/edwardaux/XcodeExplorer">XcodeExplorer</a> installed. This lets you dig through internal notifications and the Xcode view heriarchy for debugging. Then you&#8217;ll want <a href="http://delisa.me">Delisa Mason</a>&#8217;s <a href="https://github.com/kattrali/Xcode5-Plugin-Template">Xcode 5 Plugin</a> template which also comes from Alcatraz. Now you can create a new project and pick <em>&#8220;Xcode 5 Plugin&#8221;</em>. This will do a bunch of the boring work around getting set up on a project, though it misses one bit that to me is essential, setting the Scheme Target. Once setup go to the Scheme editor and make it open Xcode as the target.</p>
+
+<p><img src="http://artsy.github.io/images/2014-06-17-building-the-xcode-plugin-snapshots/scheme.png" alt="Go set you target dangit" /></p>
+
+<p>This means that when you do <code>cmd + r</code> on your project it will open a new instance of Xcode with your plugin installed, making the dev cycle for a plugin as simple as a normal OS X app. From here I can&#8217;t tell you how to build your plugin. It&#8217;s just normal development, however I can offer some general advice:</p>
+
+<ul>
+<li>When you see a class you don&#8217;t know, google it, chances are Luis Solano has you covered with <a href="https://github.com/luisobo/Xcode-RuntimeHeaders">Xcode-RuntimeHeaders</a>.</li>
+<li>Use id with fake class interfaces to get around having the headers for Xcode&#8217;s classes.</li>
+<li>Avoid 3rd party dependencies as much as possible as all plugin classes are in the same runtime.</li>
+<li>A lot of work is done in notifications, so it&#8217;s easy to hook in to state changes.</li>
+<li>Swizzle as little as possible</li>
+<li>Wrap code you&#8217;re not 100% on with <code>@try {} @catch {}</code> once it&#8217;s working to crash elegantly</li>
+<li>Look at the source code of other plugins</li>
+<li>Read <a href="https://github.com/kattrali/Xcode5-Plugin-Template#notes">the notes</a> on the Xcode5 Plugin Template</li>
+</ul>
+
+
+<h2>Releasing</h2>
+
+<p>Next up you want to get it on Alcatraz, this is just a pull request to the <a href="https://github.com/supermarin/alcatraz-packages">alcatraz-packages repo</a>, it&#8217;s like the old days of CocoaPods! Then you have a plugin, and people will always be using the master HEAD version of your plugin, so be wary around putting unstable code on that branch.</p>
+
+<p>It&#8217;s easy to forget that if you build apps you have all the tools you need to improve your workflow, one improvement that saves you an hour today could save thousands of human-hours once it&#8217;s out in the community.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Testing Core Data Migrations]]></title>
@@ -25,7 +71,7 @@
 <!-- more -->
 
 
-<p>Context: Folio is a big Core Data app, that now has hundreds of tests that I&#8217;ve added in the past 6 month, tests that cover everything from the views to simple model checks. It was originally built with a CoreDataManager singleton that contains a reference to a per-thread main managed object context. As I started to apply tests to the app I needed to start creating in-memory managed object contexts for <a href="http://www.bignerdranch.com/blog/dependency-injection-ios/">dependency injection</a>. Making my class (roughly) end up like this:</p>
+<p>Context: Folio is a big Core Data app, that now has hundreds of <a href="https://speakerdeck.com/orta/getting-eigen-out?slide=40">tests</a> that I&#8217;ve added in the past 6 month, tests that cover everything from <a href="https://speakerdeck.com/orta/getting-eigen-out?slide=40">the views</a> to simple model checks. It was originally built with a CoreDataManager singleton that contains a reference to a per-thread main managed object context. As I started to apply tests to the app I needed to start creating in-memory managed object contexts for <a href="http://www.bignerdranch.com/blog/dependency-injection-ios/">dependency injection</a>. Making my class (roughly) end up like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -116,7 +162,6 @@
 <span class='line-number'>74</span>
 <span class='line-number'>75</span>
 <span class='line-number'>76</span>
-<span class='line-number'>77</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">static</span> <span class="kt">BOOL</span> <span class="n">ARRunningUnitTests</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 </span><span class='line'><span class="k">static</span> <span class="n">NSManagedObjectModel</span> <span class="o">*</span><span class="n">managedObjectModel</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'><span class="k">static</span> <span class="n">NSManagedObjectContext</span> <span class="o">*</span><span class="n">mainManagedObjectContext</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
@@ -160,7 +205,6 @@
 </span><span class='line'>
 </span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">mainManagedObjectContext</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="n">mainManagedObjectContext</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="n">newManagedObjectContext</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">mainManagedObjectContext</span> <span class="n">setStalenessInterval</span><span class="o">:</span><span class="mf">60.0</span><span class="p">];</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">mainManagedObjectContext</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
@@ -170,7 +214,7 @@
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="n">NSManagedObjectContext</span> <span class="o">*</span><span class="n">context</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'>    <span class="n">NSURL</span> <span class="o">*</span><span class="n">storeURL</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="n">fileURLWithPath</span><span class="o">:</span><span class="p">[</span><span class="n">ARFileUtils</span> <span class="n">coreDataStorePath</span><span class="p">]];</span>
-</span><span class='line'>    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">options</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span> <span class="n">NSMigratePersistentStoresAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">),</span> <span class="n">NSInferMappingModelAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">)};</span>
+</span><span class='line'>    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">options</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span> <span class="n">NSMigratePersistentStoresAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">),</span> <span class="n">NSInferMappingModelAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">)</span> <span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'>    <span class="n">NSManagedObjectModel</span> <span class="o">*</span><span class="n">model</span> <span class="o">=</span> <span class="p">[</span><span class="n">CoreDataManager</span> <span class="n">managedObjectModel</span><span class="p">];</span>
@@ -180,7 +224,7 @@
 </span><span class='line'>
 </span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSManagedObjectContext</span> <span class="o">*</span><span class="p">)</span><span class="nf">stubbedManagedObjectContext</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">options</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span> <span class="n">NSMigratePersistentStoresAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">),</span> <span class="n">NSInferMappingModelAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">)};</span>
+</span><span class='line'>    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">options</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span> <span class="n">NSMigratePersistentStoresAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">),</span> <span class="n">NSInferMappingModelAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">)</span> <span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'>    <span class="n">NSManagedObjectModel</span> <span class="o">*</span><span class="n">model</span> <span class="o">=</span> <span class="p">[</span><span class="n">CoreDataManager</span> <span class="n">managedObjectModel</span><span class="p">];</span>
@@ -4161,30 +4205,6 @@ script:
 <h3>More Eggs?</h3>
 
 <p>Check out <a href="http://artsy.net/humans.txt">artsy.net/humans.txt</a> for more Easter eggs and please feel free to email me at <strong>db[at]artsy[dot]net</strong> if you want to come visit or <a href="http://artsy.net/jobs">work here</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Musical Chairs]]></title>
-    <link href="http://artsy.github.io/blog/2013/03/29/musical-chairs/"/>
-    <updated>2013-03-29T16:38:00-04:00</updated>
-    <id>http://artsy.github.io/blog/2013/03/29/musical-chairs</id>
-    <content type="html"><![CDATA[<p> At Artsy we make Artsy Folio. Folio is an awesome portfolio app that shows our gallery and museum partners their artworks in one place, allows them to easily get information about their inventory and to send works by email to their contacts.</p>
-
-<p>Folio has to deal with large multi-gigabyte syncs in order to operate offline. That makes for a great user experience, but for the developer working on the sync, it&#8217;s not as pleasant. Combined with our use of Core Data, the app’s maturity, and dealing with data store migrations, things can get hairy. We needed a tool that could freeze and restore app data at will, obviating the need for constant syncing and resyncing.</p>
-
-<p>That&#8217;s why I built <a href="https://github.com/orta/chairs">chairs</a>&#8230;</p>
-
-<!--more-->
-
-
-<p>Chairs is a gem you can install via <code>gem install chairs</code>. It allows you to stash and replace your current iOS simulator application state. It will grab everything related to the app ( including the current <code>NSUserDefaults</code>) and store it in a named subfolder in your current working directory. No black magic, just lots of copying files.</p>
-
-<p>The command line interface is based on git, so to bring in the current state you run <code>chairs pull [name]</code> and to replace the state you use <code>chairs push [name]</code>. The name is just a label so you can remember which version corresponds to that musical chair. You can get a list of these by doing <code>chairs list</code>, and delete them with <code>chairs rm [name]</code>.</p>
-
-<p>Besides the core functionality, chairs has a little bit of sugar to help you with related tasks. My personal favourite is <code>chairs open</code>; this will just open the folder of the most recently used app so you can go and have a snoop around. Amazing for making sure files are where they say they are or for opening your sqlite database in <a href="http://menial.co.uk/base/">Base</a>.</p>
-
-<p>So <code>gem install chairs</code> or check out the <a href="https://github.com/orta/chairs">README</a> for some more information.</p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Plugins | Artsy Engineering]]></title>
+  <link href="http://artsy.github.io/blog/categories/plugins/atom.xml" rel="self"/>
+  <link href="http://artsy.github.io/"/>
+  <updated>2014-06-17T14:29:15-04:00</updated>
+  <id>http://artsy.github.io/</id>
+  <author>
+    <name><![CDATA[Artsy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Building the Xcode Plugin Snapshots]]></title>
+    <link href="http://artsy.github.io/blog/2014/06/17/building-the-xcode-plugin-snapshots/"/>
+    <updated>2014-06-17T10:50:00-04:00</updated>
+    <id>http://artsy.github.io/blog/2014/06/17/building-the-xcode-plugin-snapshots</id>
+    <content type="html"><![CDATA[<p>I'm the kind of guy who thinks better tooling means better outcomes. But when good tooling isn't available, it's time to build it yourself. It's this attitude that lead to my work on <a href="http://cocoadocs.org">CocoaDocs.org</a>, and then to <a href="http://cocoapods.org">CocoaPods.org</a> &amp; its documentation.</p>
+
+<p>We've been trying to apply this to testing, and in order to pull this off I've had to extend Xcode to show off the results of failing tests in a more visual way. To that end, I've extended Xcode to show the results of failing <a href="https://github.com/facebook/ios-snapshot-test-case">view tests</a> in a more visual way by building <a href="https://github.com/orta/snapshots">Snapshots for Xcode</a>.  Let's go through the process of building an Xcode plugin so you can do this too. Screw stability.</p>
+
+<!-- more -->
+
+
+<h2>Getting started</h2>
+
+<p>Lets start of with some Xcode inception. The nicest way to start working on Xcode plugins is to install <a href="http://alcatraz.io">Alcatraz</a> the Xcode plugin package manager:</p>
+
+<pre><code>curl -fsSL https://raw.github.com/supermarin/Alcatraz/master/Scripts/install.sh | sh
+</code></pre>
+
+<p>From Alcatraz you should have <a href="https://github.com/edwardaux/XcodeExplorer">XcodeExplorer</a> installed. This lets you dig through internal notifications and the Xcode view heriarchy for debugging. Then you'll want <a href="http://delisa.me">Delisa Mason</a>'s <a href="https://github.com/kattrali/Xcode5-Plugin-Template">Xcode 5 Plugin</a> template which also comes from Alcatraz. Now you can create a new project and pick <em>"Xcode 5 Plugin"</em>. This will do a bunch of the boring work around getting set up on a project, though it misses one bit that to me is essential, setting the Scheme Target. Once setup go to the Scheme editor and make it open Xcode as the target.</p>
+
+<p><img src="/images/2014-06-17-building-the-xcode-plugin-snapshots/scheme.png" alt="Go set you target dangit" /></p>
+
+<p>This means that when you do <code>cmd + r</code> on your project it will open a new instance of Xcode with your plugin installed, making the dev cycle for a plugin as simple as a normal OS X app. From here I can't tell you how to build your plugin. It's just normal development, however I can offer some general advice:</p>
+
+<ul>
+<li>When you see a class you don't know, google it, chances are Luis Solano has you covered with <a href="https://github.com/luisobo/Xcode-RuntimeHeaders">Xcode-RuntimeHeaders</a>.</li>
+<li>Use id with fake class interfaces to get around having the headers for Xcode's classes.</li>
+<li>Avoid 3rd party dependencies as much as possible as all plugin classes are in the same runtime.</li>
+<li>A lot of work is done in notifications, so it's easy to hook in to state changes.</li>
+<li>Swizzle as little as possible</li>
+<li>Wrap code you're not 100% on with <code>@try {} @catch {}</code> once it's working to crash elegantly</li>
+<li>Look at the source code of other plugins</li>
+<li>Read <a href="https://github.com/kattrali/Xcode5-Plugin-Template#notes">the notes</a> on the Xcode5 Plugin Template</li>
+</ul>
+
+
+<h2>Releasing</h2>
+
+<p>Next up you want to get it on Alcatraz, this is just a pull request to the <a href="https://github.com/supermarin/alcatraz-packages">alcatraz-packages repo</a>, it's like the old days of CocoaPods! Then you have a plugin, and people will always be using the master HEAD version of your plugin, so be wary around putting unstable code on that branch.</p>
+
+<p>It's easy to forget that if you build apps you have all the tools you need to improve your workflow, one improvement that saves you an hour today could save thousands of human-hours once it's out in the community.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -69,9 +69,38 @@
       </form>
     </div>
     <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
+      <style>
+
+html #main #content {
+  width: 900px;
+}
+
+html  #main #sidebar {
+  display:block;
+  width:900px;
+}
+
+html #main #sidebar section {
+  float:left;
+  width:260px;
+  padding:20px;
+}
+
+html #main_footer {
+  margin-top:40px;
+  margin-bottom:20px;
+  clear:both;
+}
+
+html #main_footer p {
+  padding:10px;
+}
+
+</style>
+
+<div>
+  <article class="hentry" role="article">
+    
   <header>
     
     <a href="">
@@ -102,7 +131,7 @@
 <!-- more -->
 
 
-<p>Context: Folio is a big Core Data app, that now has hundreds of tests that I&#8217;ve added in the past 6 month, tests that cover everything from the views to simple model checks. It was originally built with a CoreDataManager singleton that contains a reference to a per-thread main managed object context. As I started to apply tests to the app I needed to start creating in-memory managed object contexts for <a href="http://www.bignerdranch.com/blog/dependency-injection-ios/">dependency injection</a>. Making my class (roughly) end up like this:</p>
+<p>Context: Folio is a big Core Data app, that now has hundreds of <a href="https://speakerdeck.com/orta/getting-eigen-out?slide=40">tests</a> that I&#8217;ve added in the past 6 month, tests that cover everything from <a href="https://speakerdeck.com/orta/getting-eigen-out?slide=40">the views</a> to simple model checks. It was originally built with a CoreDataManager singleton that contains a reference to a per-thread main managed object context. As I started to apply tests to the app I needed to start creating in-memory managed object contexts for <a href="http://www.bignerdranch.com/blog/dependency-injection-ios/">dependency injection</a>. Making my class (roughly) end up like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -193,7 +222,6 @@
 <span class='line-number'>74</span>
 <span class='line-number'>75</span>
 <span class='line-number'>76</span>
-<span class='line-number'>77</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">static</span> <span class="kt">BOOL</span> <span class="n">ARRunningUnitTests</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 </span><span class='line'><span class="k">static</span> <span class="n">NSManagedObjectModel</span> <span class="o">*</span><span class="n">managedObjectModel</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'><span class="k">static</span> <span class="n">NSManagedObjectContext</span> <span class="o">*</span><span class="n">mainManagedObjectContext</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
@@ -237,7 +265,6 @@
 </span><span class='line'>
 </span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">mainManagedObjectContext</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="n">mainManagedObjectContext</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="n">newManagedObjectContext</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">[</span><span class="n">mainManagedObjectContext</span> <span class="n">setStalenessInterval</span><span class="o">:</span><span class="mf">60.0</span><span class="p">];</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">mainManagedObjectContext</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
@@ -247,7 +274,7 @@
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="n">NSManagedObjectContext</span> <span class="o">*</span><span class="n">context</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'>    <span class="n">NSURL</span> <span class="o">*</span><span class="n">storeURL</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="n">fileURLWithPath</span><span class="o">:</span><span class="p">[</span><span class="n">ARFileUtils</span> <span class="n">coreDataStorePath</span><span class="p">]];</span>
-</span><span class='line'>    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">options</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span> <span class="n">NSMigratePersistentStoresAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">),</span> <span class="n">NSInferMappingModelAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">)};</span>
+</span><span class='line'>    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">options</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span> <span class="n">NSMigratePersistentStoresAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">),</span> <span class="n">NSInferMappingModelAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">)</span> <span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'>    <span class="n">NSManagedObjectModel</span> <span class="o">*</span><span class="n">model</span> <span class="o">=</span> <span class="p">[</span><span class="n">CoreDataManager</span> <span class="n">managedObjectModel</span><span class="p">];</span>
@@ -257,7 +284,7 @@
 </span><span class='line'>
 </span><span class='line'><span class="k">+</span> <span class="p">(</span><span class="n">NSManagedObjectContext</span> <span class="o">*</span><span class="p">)</span><span class="nf">stubbedManagedObjectContext</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">options</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span> <span class="n">NSMigratePersistentStoresAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">),</span> <span class="n">NSInferMappingModelAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">)};</span>
+</span><span class='line'>    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">options</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span> <span class="n">NSMigratePersistentStoresAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">),</span> <span class="n">NSInferMappingModelAutomaticallyOption</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">)</span> <span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
 </span><span class='line'>    <span class="n">NSManagedObjectModel</span> <span class="o">*</span><span class="n">model</span> <span class="o">=</span> <span class="p">[</span><span class="n">CoreDataManager</span> <span class="n">managedObjectModel</span><span class="p">];</span>
@@ -462,9 +489,9 @@
 </div>
 
 
-  <footer>
-    <div class="meta">
-      
+    <footer>
+      <div class="meta">
+        
   
 
 
@@ -500,9 +527,9 @@
   </span>
 
 
-    </div>
-    <div class="meta">
-      Categories: 
+      </div>
+      <div class="meta">
+        Categories: 
 
 <span class="categories">
   
@@ -511,32 +538,19 @@
 </span>
 
 
-    </div>
+      </div>
 
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://artsy.github.io/blog/2014/06/11/testing-core-data-migrations/" data-via="artsy" data-counturl="http://artsy.github.io/blog/2014/06/11/testing-core-data-migrations/" >Tweet</a>
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/05/12/continuous-integration-for-service-oriented-architectures/" title="Previous Post: Continuous integration for service-oriented architectures">&laquo; Continuous integration for service-oriented architectures</a>
-      
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
+      <p class="meta">
+        
+          <a class="basic-alignment left" href="/blog/2014/05/12/continuous-integration-for-service-oriented-architectures/" title="Previous Post: Continuous integration for service-oriented architectures">&laquo; Continuous integration for service-oriented architectures</a>
+        
+        
+          <a class="basic-alignment right" href="/blog/2014/06/17/building-the-xcode-plugin-snapshots/" title="next Post: Building the Xcode Plugin Snapshots">Building the Xcode Plugin Snapshots &raquo;</a>
+        
+      </p>
+    </footer>
+  </article>
 
 </div>
     </div>
@@ -556,6 +570,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/17/building-the-xcode-plugin-snapshots/">Building the Xcode Plugin Snapshots</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/06/11/testing-core-data-migrations/">Testing Core Data Migrations</a>
       </li>
     
@@ -569,10 +587,6 @@
     
       <li class="post">
         <a href="/blog/2014/04/17/building-an-english-auction-with-mongodb/">Building an English Auction with MongoDB</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/04/02/refactoring-infrastructure/">Refactoring Infrastructure</a>
       </li>
     
   </ul>
@@ -597,22 +611,6 @@
 
 </footer>
   
-
-<script type="text/javascript">
-      var disqus_shortname = 'artsy';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://artsy.github.io/blog/2014/06/11/testing-core-data-migrations/';
-        var disqus_url = 'http://artsy.github.io/blog/2014/06/11/testing-core-data-migrations/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
 
 
 
