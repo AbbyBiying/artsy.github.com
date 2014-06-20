@@ -26,7 +26,7 @@
         <loc>
             http://artsy.github.io/blog/2012/01/31/beyond-heroku-satellite-delayed-job-workers-on-ec2/
         </loc>
-        <lastmod>2014-06-17T13:41:05-04:00</lastmod>
+        <lastmod>2014-06-20T17:49:12-04:00</lastmod>
     </url>
     <url>
         <loc>
@@ -102,13 +102,13 @@
     </url>
     <url>
         <loc>http://artsy.github.io/blog/2012/07/05/spend-time-with-your-site/</loc>
-        <lastmod>2014-06-17T13:41:05-04:00</lastmod>
+        <lastmod>2014-06-20T17:49:12-04:00</lastmod>
     </url>
     <url>
         <loc>
             http://artsy.github.io/blog/2012/07/10/on-demand-jenkins-slaves-with-amazon-ec2/
         </loc>
-        <lastmod>2014-06-17T13:41:05-04:00</lastmod>
+        <lastmod>2014-06-20T17:49:12-04:00</lastmod>
     </url>
     <url>
         <loc>http://artsy.github.io/blog/2012/08/14/on-objective-c-code-standards/</loc>
@@ -242,7 +242,7 @@
     </url>
     <url>
         <loc>http://artsy.github.io/blog/2013/08/27/introduction-to-aws-opsworks/</loc>
-        <lastmod>2014-06-17T13:41:05-04:00</lastmod>
+        <lastmod>2014-06-20T17:49:12-04:00</lastmod>
     </url>
     <url>
         <loc>http://artsy.github.io/blog/2013/11/07/upgrading-to-mongoid4/</loc>
@@ -258,7 +258,7 @@
         <loc>
             http://artsy.github.io/blog/2014/01/30/isolating-spurious-and-nondeterministic-tests/
         </loc>
-        <lastmod>2014-06-17T13:41:05-04:00</lastmod>
+        <lastmod>2014-06-20T17:49:12-04:00</lastmod>
     </url>
     <url>
         <loc>http://artsy.github.io/blog/2014/03/17/detecting-trends-with-forgetsy/</loc>
@@ -284,7 +284,7 @@
     </url>
     <url>
         <loc>http://artsy.github.io/blog/2014/04/02/refactoring-infrastructure/</loc>
-        <lastmod>2014-06-17T13:41:05-04:00</lastmod>
+        <lastmod>2014-06-20T17:49:12-04:00</lastmod>
     </url>
     <url>
         <loc>
@@ -302,7 +302,7 @@
         <loc>
             http://artsy.github.io/blog/2014/05/12/continuous-integration-for-service-oriented-architectures/
         </loc>
-        <lastmod>2014-06-17T13:41:05-04:00</lastmod>
+        <lastmod>2014-06-20T17:49:12-04:00</lastmod>
     </url>
     <url>
         <loc>http://artsy.github.io/blog/2014/06/11/testing-core-data-migrations/</loc>
@@ -313,16 +313,20 @@
         <lastmod>2014-06-17T14:28:58-04:00</lastmod>
     </url>
     <url>
+        <loc>http://artsy.github.io/blog/2014/06/20/artsys-first-closed-source-pod/</loc>
+        <lastmod>2014-06-20T18:45:25-04:00</lastmod>
+    </url>
+    <url>
         <loc>http://artsy.github.io/about/</loc>
         <lastmod>2014-06-17T13:41:05-04:00</lastmod>
     </url>
     <url>
         <loc>http://artsy.github.io/blog/archives/</loc>
-        <lastmod>2014-06-17T14:28:58-04:00</lastmod>
+        <lastmod>2014-06-20T18:45:25-04:00</lastmod>
     </url>
     <url>
         <loc>http://artsy.github.io/</loc>
-        <lastmod>2014-06-17T14:28:58-04:00</lastmod>
+        <lastmod>2014-06-20T18:45:25-04:00</lastmod>
     </url>
     <url>
         <loc>http://artsy.github.io/open-source/</loc>

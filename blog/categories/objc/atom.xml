@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Objc | Artsy Engineering]]></title>
   <link href="http://artsy.github.io/blog/categories/objc/atom.xml" rel="self"/>
   <link href="http://artsy.github.io/"/>
-  <updated>2014-06-17T14:29:15-04:00</updated>
+  <updated>2014-06-20T18:46:21-04:00</updated>
   <id>http://artsy.github.io/</id>
   <author>
     <name><![CDATA[Artsy]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Artsy's first closed source Pod]]></title>
+    <link href="http://artsy.github.io/blog/2014/06/20/artsys-first-closed-source-pod/"/>
+    <updated>2014-06-20T17:53:00-04:00</updated>
+    <id>http://artsy.github.io/blog/2014/06/20/artsys-first-closed-source-pod</id>
+    <content type="html"><![CDATA[<p>When I joined Artsy, <a href="http://code.dblock.org">dB</a> told me this: <em>Open source as default.</em></p>
+
+<p>I took this to heart. I genuinely believe the idea behind the philosophy. It's cool that our real product isn't our implementations on the web or native but the data which powers it - <a href="https://artsy.net/theartgenomeproject">the Art Genome Project</a>. Similarly, I spend a bunch of time <a href="https://github.com/AshFurrow/ARCollectionViewMasonryLayout">on</a> <a href="https://github.com/dblock/ARASCIISwizzle">open</a> <a href="https://github.com/dblock/ios-snapshot-test-case-expecta">sourcing</a> <a href="https://github.com/dblock/ARTiledImageView">solid</a> <a href="https://github.com/dstnbrkr/DRBOperationTree">abstractions</a> <a href="https://github.com/orta/ORSimulatorKeyboardAccessor">from</a> <a href="https://github.com/orta/ORStackView">our</a> <a href="https://github.com/orta/ARAnalytics">apps</a>, always taking the opinion if something is used in more than one place, it should be open sourced.</p>
+
+<p>This week I pushed some libraries that were a bit different, read on to find out why.</p>
+
+<!-- more -->
+
+
+<h2>The problem</h2>
+
+<p>I was modernizing a section of <a href="http://orta.github.io/#folio-header-unit">Folio</a> that hasn't changed in 2 years to use UI elements consistent with <a href="https://iphone.artsy.net">the Artsy iOS app</a> and realized I was copying and pasting a large amount of code from one app to the other. This got me thinking about ways to keep this code in one place, as we might start another project which needs these same styles soon.</p>
+
+<h2>The solution</h2>
+
+<p>I didn't want to put it on the public CocoaPods Spec Repo, because it's not very relevant to the larger community, but in keeping with our philosophy of "open source by default," I definitely wanted to publish it as an example for others. The most elegant answer was to create our own <a href="https://github.com/artsy/specs">public Specs Repo</a>, which serves as a good reference when people want to know what a private specs repo looks like.</p>
+
+<p>Like anyone who has tried to modularize a pretty large code-base, it turns out a lot of things were connected together. I couldn't just build my <a href="http://github.com/Artsy/Artsy-UILabels">Artsy+UILabels</a> repo and put everything in there. Instead I had to also build Artsy+UIFonts and <a href="http://github.com/Artsy/Artsy-UIColors">Artsy+UIColors</a>.</p>
+
+<p>One of the good things about having to build three libraries is that I became very familiar with <code>pod lib create</code>. This is a command for building the scaffolding around a CocoaPod, making it much easier to create something fast. We had been holding off doing a <a href="https://github.com/CocoaPods/pod-template/pull/33">big update</a> to the command because no-one knew what WWDC would bring. Now we know, so I've worked on a new version of the command that programmatically manipulates an example project to be what you want via <a href="https://github.com/CocoaPods/Xcodeproj">xcodeproj</a>. I've used it for all of these libraries. Expect to see it on the CocoaPods blog soon.</p>
+
+<h2>Caveat</h2>
+
+<p>I built three libraries, but one of them is unique. I modelled Artsy+UIFonts from <a href="http://kylefuller.co.uk">Kyle Fuller</a>'s <a href="https://github.com/kylef/OpenSans-pod">OpenSans-pod</a> where the CocoaPod has the font resources, and installing it moves them into your project. This is great for sharing, but doesn't work with commercial font licenses. As I don't want to break anyone's license we don't have the ability to open source that project. Thus Artsy Mobile's first closed source library.</p>
+
+<p>Making a public-private Spec repo is a great halfway point towards modularising code and keeping irrelevant things from being on CocoaPods. I've found that it means I can still open source projects, and the only information it leaks about private code is the name of a library. If you're interested in making a private specs repo - check the <a href="http://guides.cocoapods.org/making/private-cocoapods.html">CocoaPods guides</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building the Xcode Plugin Snapshots]]></title>

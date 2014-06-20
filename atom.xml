@@ -4,7 +4,7 @@
   <title><![CDATA[Artsy Engineering]]></title>
   <link href="http://artsy.github.io/atom.xml" rel="self"/>
   <link href="http://artsy.github.io/"/>
-  <updated>2014-06-17T14:29:08-04:00</updated>
+  <updated>2014-06-20T18:46:06-04:00</updated>
   <id>http://artsy.github.io/</id>
   <author>
     <name><![CDATA[Artsy]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Artsy's first closed source Pod]]></title>
+    <link href="http://artsy.github.io/blog/2014/06/20/artsys-first-closed-source-pod/"/>
+    <updated>2014-06-20T17:53:00-04:00</updated>
+    <id>http://artsy.github.io/blog/2014/06/20/artsys-first-closed-source-pod</id>
+    <content type="html"><![CDATA[<p>When I joined Artsy, <a href="http://code.dblock.org">dB</a> told me this: <em>Open source as default.</em></p>
+
+<p>I took this to heart. I genuinely believe the idea behind the philosophy. It&#8217;s cool that our real product isn&#8217;t our implementations on the web or native but the data which powers it - <a href="https://artsy.net/theartgenomeproject">the Art Genome Project</a>. Similarly, I spend a bunch of time <a href="https://github.com/AshFurrow/ARCollectionViewMasonryLayout">on</a> <a href="https://github.com/dblock/ARASCIISwizzle">open</a> <a href="https://github.com/dblock/ios-snapshot-test-case-expecta">sourcing</a> <a href="https://github.com/dblock/ARTiledImageView">solid</a> <a href="https://github.com/dstnbrkr/DRBOperationTree">abstractions</a> <a href="https://github.com/orta/ORSimulatorKeyboardAccessor">from</a> <a href="https://github.com/orta/ORStackView">our</a> <a href="https://github.com/orta/ARAnalytics">apps</a>, always taking the opinion if something is used in more than one place, it should be open sourced.</p>
+
+<p>This week I pushed some libraries that were a bit different, read on to find out why.</p>
+
+<!-- more -->
+
+
+<h2>The problem</h2>
+
+<p>I was modernizing a section of <a href="http://orta.github.io/#folio-header-unit">Folio</a> that hasn&#8217;t changed in 2 years to use UI elements consistent with <a href="https://iphone.artsy.net">the Artsy iOS app</a> and realized I was copying and pasting a large amount of code from one app to the other. This got me thinking about ways to keep this code in one place, as we might start another project which needs these same styles soon.</p>
+
+<h2>The solution</h2>
+
+<p>I didn&#8217;t want to put it on the public CocoaPods Spec Repo, because it&#8217;s not very relevant to the larger community, but in keeping with our philosophy of &#8220;open source by default,&#8221; I definitely wanted to publish it as an example for others. The most elegant answer was to create our own <a href="https://github.com/artsy/specs">public Specs Repo</a>, which serves as a good reference when people want to know what a private specs repo looks like.</p>
+
+<p>Like anyone who has tried to modularize a pretty large code-base, it turns out a lot of things were connected together. I couldn&#8217;t just build my <a href="http://github.com/Artsy/Artsy-UILabels">Artsy+UILabels</a> repo and put everything in there. Instead I had to also build Artsy+UIFonts and <a href="http://github.com/Artsy/Artsy-UIColors">Artsy+UIColors</a>.</p>
+
+<p>One of the good things about having to build three libraries is that I became very familiar with <code>pod lib create</code>. This is a command for building the scaffolding around a CocoaPod, making it much easier to create something fast. We had been holding off doing a <a href="https://github.com/CocoaPods/pod-template/pull/33">big update</a> to the command because no-one knew what WWDC would bring. Now we know, so I&#8217;ve worked on a new version of the command that programmatically manipulates an example project to be what you want via <a href="https://github.com/CocoaPods/Xcodeproj">xcodeproj</a>. I&#8217;ve used it for all of these libraries. Expect to see it on the CocoaPods blog soon.</p>
+
+<h2>Caveat</h2>
+
+<p>I built three libraries, but one of them is unique. I modelled Artsy+UIFonts from <a href="http://kylefuller.co.uk">Kyle Fuller</a>&#8217;s <a href="https://github.com/kylef/OpenSans-pod">OpenSans-pod</a> where the CocoaPod has the font resources, and installing it moves them into your project. This is great for sharing, but doesn&#8217;t work with commercial font licenses. As I don&#8217;t want to break anyone&#8217;s license we don&#8217;t have the ability to open source that project. Thus Artsy Mobile&#8217;s first closed source library.</p>
+
+<p>Making a public-private Spec repo is a great halfway point towards modularising code and keeping irrelevant things from being on CocoaPods. I&#8217;ve found that it means I can still open source projects, and the only information it leaks about private code is the name of a library. If you&#8217;re interested in making a private specs repo - check the <a href="http://guides.cocoapods.org/making/private-cocoapods.html">CocoaPods guides</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building the Xcode Plugin Snapshots]]></title>
@@ -3996,215 +4030,6 @@ script:
 <p>There is another tool worth mentioning and that is <a href="http://cocoadocs.org/dosets/Analytics/0.0.5/">Analytics</a> which is a new port of Analytics.js which does a similar <em>simple API to different analytics providers</em> but works by offloading the work to the server. I think there are advantages and disadvantages to both of these approaches, but I think one or the other should cover nearly all use cases!</p>
 
 <p>ARAnalytics is available on Github at <a href="http://github.com/orta/ARAnalytics">orta/ARAnalytics</a> and documented on <a href="http://cocoadocs.org/docsets/ARAnalytics/1.2/">Cocoadocs</a> (which Artsy proudly sponsors!)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[An Easter Egg for Curl]]></title>
-    <link href="http://artsy.github.io/blog/2013/04/01/an-easter-egg-for-curl/"/>
-    <updated>2013-04-01T12:21:00-04:00</updated>
-    <id>http://artsy.github.io/blog/2013/04/01/an-easter-egg-for-curl</id>
-    <content type="html"><![CDATA[<p>Let&#8217;s implement an Easter egg that requires <a href="http://curl.haxx.se/">curl</a> and is HTTP-compliant.</p>
-
-<p>We accept access tokens on our API endpoints. These can come from an <code>access_token</code> query string parameter.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>curl http://artsy.net/api/v1/system/up?access_token=invalid -v
-</span><span class='line'>
-</span><span class='line'>&lt; HTTP/1.1 401 Unauthorized
-</span><span class='line'>&lt; Content-Type: application/json
-</span><span class='line'>&lt; Content-Length: 24
-</span><span class='line'>
-</span><span class='line'>{ "error" : "Unauthorized" }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So far, so good. Now try this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>curl http://artsy.net/api/v1/system/up?access_token=10013 -v
-</span><span class='line'>
-</span><span class='line'>&lt; HTTP/1.1 401 Broadway
-</span><span class='line'>&lt; Content-Type: application/json
-</span><span class='line'>&lt; Content-Length: 76
-</span><span class='line'>
-</span><span class='line'>{ "error" : "Inspiration from the Engineering team at http://artsy.github.com" }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What?! <strong>401 Broadway</strong>? See, our office address is <em>401 Broadway, 10013, New York, NY</em>. We just tried to add a more developer-friendly way to find us in the New York grid. And here&#8217;s the view from our 25th floor office - that&#8217;s SOHO right below us and the Empire State Building a bit North.</p>
-
-<p><img src="http://artsy.github.io/images/2013-04-01-an-easter-egg-for-curl/artsy-office-view.jpg" /></p>
-
-<p>Photo by <a href="https://github.com/zamiang">@zamiang</a>.</p>
-
-<p>Easter egg implementation follows.</p>
-
-<!-- more -->
-
-
-<p>Implementing a custom HTTP response is surprisingly hard with most web servers. Changing the text that follows error codes is not something most people need. Our API will have to return a custom error code and some monkey-patching will translate the status message. We use <a href="https://github.com/intridea/grape">grape</a>, which is Rack-based and supports inserting middleware, where we do authentication. We randomly chose the number 2600 for an internal status code.</p>
-
-<figure class='code'><figcaption><span>api/api_action_dispatch_request.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApiActionDispatchRequest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">Request</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">super</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">[]</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">params</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">||</span> <span class="n">headers</span><span class="o">[</span><span class="s2">&quot;X_</span><span class="si">#{</span><span class="n">key</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">upcase</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">]</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>api/api_auth_middleware.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApiAuthMiddleware</span> <span class="o">&lt;</span> <span class="no">Grape</span><span class="o">::</span><span class="no">Middleware</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">before</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">access_token</span> <span class="o">==</span> <span class="s2">&quot;10013&quot;</span>
-</span><span class='line'>      <span class="kp">throw</span> <span class="ss">:error</span><span class="p">,</span>
-</span><span class='line'>        <span class="n">message</span><span class="p">:</span> <span class="s1">&#39;Inspiration from the Engineering team at http://artsy.github.com&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="n">status</span><span class="p">:</span> <span class="mi">2600</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kp">private</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">access_token</span>
-</span><span class='line'>      <span class="vi">@access_token</span> <span class="o">||=</span> <span class="n">request</span><span class="o">[</span><span class="ss">:access_token</span><span class="o">]</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">request</span>
-</span><span class='line'>      <span class="vi">@request</span> <span class="o">||=</span> <span class="no">ApiActionDispatchRequest</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>WEBrick</h3>
-
-<figure class='code'><figcaption><span>config/initializers/broadway/webrick.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">WEBrick</span>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">HTTPResponse</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">status</span><span class="o">=</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">2600</span>
-</span><span class='line'>        <span class="vi">@status</span> <span class="o">=</span> <span class="mi">401</span>
-</span><span class='line'>        <span class="vi">@reason_phrase</span> <span class="o">=</span> <span class="s2">&quot;Broadway&quot;</span>
-</span><span class='line'>      <span class="k">else</span>
-</span><span class='line'>        <span class="vi">@status</span> <span class="o">=</span> <span class="n">status</span>
-</span><span class='line'>        <span class="vi">@reason_phrase</span> <span class="o">=</span> <span class="no">HTTPStatus</span><span class="o">::</span><span class="n">reason_phrase</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Thin</h3>
-
-<figure class='code'><figcaption><span>config/initializers/broadway/thin.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Thin</span>
-</span><span class='line'>  <span class="k">class</span> <span class="nc">Response</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">head</span>
-</span><span class='line'>      <span class="k">if</span> <span class="vi">@status</span> <span class="o">==</span> <span class="mi">2600</span>
-</span><span class='line'>        <span class="s2">&quot;HTTP/1.1 401 Broadway</span><span class="se">\r\n</span><span class="si">#{</span><span class="n">headers_output</span><span class="si">}</span><span class="se">\r\n</span><span class="s2">&quot;</span>
-</span><span class='line'>      <span class="k">else</span>
-</span><span class='line'>        <span class="s2">&quot;HTTP/1.1 </span><span class="si">#{</span><span class="vi">@status</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="no">HTTP_STATUS_CODES</span><span class="o">[</span><span class="vi">@status</span><span class="o">.</span><span class="n">to_i</span><span class="o">]</span><span class="si">}</span><span class="se">\r\n</span><span class="si">#{</span><span class="n">headers_output</span><span class="si">}</span><span class="se">\r\n</span><span class="s2">&quot;</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Unicorn</h3>
-
-<figure class='code'><figcaption><span>config/initializers/broadway/unicorn.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;unicorn/http_response&#39;</span>
-</span><span class='line'><span class="k">module</span> <span class="nn">Unicorn::HttpResponse</span>
-</span><span class='line'>  <span class="no">CODES</span><span class="o">[</span><span class="mi">2600</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;401 Broadway&#39;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>More Eggs?</h3>
-
-<p>Check out <a href="http://artsy.net/humans.txt">artsy.net/humans.txt</a> for more Easter eggs and please feel free to email me at <strong>db[at]artsy[dot]net</strong> if you want to come visit or <a href="http://artsy.net/jobs">work here</a>.</p>
 ]]></content>
   </entry>
   
